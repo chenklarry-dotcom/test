@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amber & Oak Roasters — Neighborhood Coffee Roastery</title>
+<meta name="description" content="Amber & Oak Roasters is a small-batch coffee roastery on Maple Street. Direct-trade beans, roasted three blocks away, poured fresh every day.">
+<style>
+  /* ---------- Design tokens (Nature Distilled style + Bakery/Cafe palette) ---------- */
+  :root {
+    --cream: #FBF3E7;
+    --cream-soft: #F5EAD9;
+    --paper: #FFFFFF;
+    --coffee-900: #2A1810;
+    --coffee-800: #3D2418;
+    --brown-600: #92400E;
+    --brown-500: #B45309;
+    --terracotta: #C67B5C;
+    --sand: #D9C7A9;
+    --ink: #3A2213;
+    --ink-soft: #6B5240;
+    --cream-ink: #F5EFE6;
+    --cream-ink-soft: #D8C6B4;
+    --focus: #C67B5C;
+
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.5rem;
+    --space-4: 2rem;
+    --space-5: 3rem;
+    --space-6: 4.5rem;
+
+    --radius: 14px;
+    --shadow-soft: 0 8px 32px rgba(42, 24, 16, 0.08);
+    --shadow-card: 0 2px 10px rgba(42, 24, 16, 0.06);
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @font-face {
+    font-family: 'DM Serif Display';
+    src: local('DM Serif Display');
+    font-display: swap;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.15; margin: 0; color: inherit; }
+  p { margin: 0; }
+  ul { margin: 0; padding: 0; list-style: none; }
+  a { color: inherit; text-decoration: none; }
+  img, svg { display: block; max-width: 100%; }
+
+  .container {
+    width: 100%;
+    max-width: 1160px;
+    margin-inline: auto;
+    padding-inline: var(--space-3);
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--coffee-900);
+    color: var(--cream-ink);
+    padding: 0.75rem 1.25rem;
+    border-radius: 0 0 8px 0;
+    z-index: 100;
+  }
+  .skip-link:focus {
+    left: 0;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .icon { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .icon-sm { width: 18px; height: 18px; }
+  .icon-star { fill: var(--brown-600); stroke: none; width: 18px; height: 18px; }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform 180ms var(--ease), background-color 180ms var(--ease), box-shadow 180ms var(--ease), color 180ms var(--ease);
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--brown-600); color: #fff; }
+  .btn-primary:hover { background: var(--brown-500); box-shadow: var(--shadow-soft); }
+  .btn-primary:active { transform: translateY(1px); }
+
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--sand); }
+  .btn-ghost:hover { background: var(--cream-soft); border-color: var(--terracotta); }
+
+  .btn-on-dark { background: transparent; color: var(--cream-ink); border-color: rgba(245, 239, 230, 0.35); }
+  .btn-on-dark:hover { background: rgba(245, 239, 230, 0.1); border-color: var(--terracotta); }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(251, 243, 231, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--sand);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    min-height: 72px;
+  }
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--coffee-900);
+  }
+  .logo-mark {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--brown-600);
+    color: var(--cream-ink);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-mark .icon { width: 20px; height: 20px; stroke: var(--cream-ink); }
+
+  .primary-nav { display: flex; align-items: center; gap: var(--space-4); }
+  .primary-nav ul { display: flex; gap: var(--space-3); }
+  .primary-nav a {
+    font-weight: 500;
+    padding: 0.4rem 0.2rem;
+    border-bottom: 2px solid transparent;
+    transition: border-color 180ms var(--ease), color 180ms var(--ease);
+  }
+  .primary-nav a:hover { border-color: var(--terracotta); color: var(--brown-600); }
+
+  .nav-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--sand);
+    border-radius: 10px;
+    min-width: 48px;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ink);
+  }
+
+  @media (max-width: 767px) {
+    .nav-toggle { display: inline-flex; }
+    .primary-nav {
+      position: fixed;
+      inset: 72px 0 auto 0;
+      background: var(--cream);
+      border-bottom: 1px solid var(--sand);
+      flex-direction: column;
+      align-items: stretch;
+      padding: var(--space-3);
+      transform: translateY(-8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms var(--ease), transform 200ms var(--ease);
+    }
+    .primary-nav.is-open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      box-shadow: var(--shadow-soft);
+    }
+    .primary-nav ul { flex-direction: column; gap: var(--space-2); }
+    .primary-nav .btn { width: 100%; margin-top: var(--space-2); }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: radial-gradient(120% 140% at 15% 10%, var(--coffee-800) 0%, var(--coffee-900) 60%);
+    color: var(--cream-ink);
+    padding-block: clamp(3rem, 8vw, 6rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(135deg, rgba(198,123,92,0.06) 0 2px, transparent 2px 26px);
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; max-width: 720px; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: var(--space-2);
+  }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--terracotta); }
+  .hero h1 { font-size: clamp(2.25rem, 5vw, 3.5rem); margin-bottom: var(--space-3); }
+  .hero p.lede { font-size: 1.1rem; color: var(--cream-ink-soft); max-width: 56ch; margin-bottom: var(--space-4); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-5); }
+
+  .hero-stats { display: flex; flex-wrap: wrap; gap: var(--space-4); border-top: 1px solid rgba(245,239,230,0.15); padding-top: var(--space-3); }
+  .hero-stats li { display: flex; flex-direction: column; gap: 0.15rem; }
+  .hero-stats strong { font-family: var(--font-display); font-size: 1.5rem; color: var(--cream-ink); }
+  .hero-stats span { font-size: 0.85rem; color: var(--cream-ink-soft); }
+
+  /* ---------- Section shell ---------- */
+  section { padding-block: clamp(3rem, 7vw, 5.5rem); }
+  .section-head { max-width: 640px; margin-bottom: var(--space-5); }
+  .section-head .eyebrow { color: var(--brown-600); }
+  .section-head .eyebrow::before { background: var(--brown-600); }
+  .section-head h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); margin-bottom: var(--space-2); }
+  .section-head p { color: var(--ink-soft); font-size: 1.05rem; }
+
+  /* ---------- About ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .about-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .about-visual {
+    aspect-ratio: 4/3;
+    border-radius: var(--radius);
+    background:
+      radial-gradient(120% 120% at 20% 15%, rgba(198,123,92,0.35), transparent 55%),
+      linear-gradient(160deg, var(--sand) 0%, var(--cream-soft) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-visual .icon { width: 64px; height: 64px; color: var(--brown-600); opacity: 0.85; }
+  .about-visual figcaption {
+    position: absolute;
+    bottom: var(--space-2);
+    left: var(--space-2);
+    right: var(--space-2);
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    background: rgba(255,255,255,0.7);
+    padding: 0.4rem 0.7rem;
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+  }
+
+  .about-list { margin-top: var(--space-3); display: flex; flex-direction: column; gap: var(--space-2); }
+  .about-list li { display: flex; gap: 0.75rem; align-items: flex-start; }
+  .about-list .icon { color: var(--brown-600); margin-top: 0.15rem; }
+  .about-list strong { display: block; }
+  .about-list span { color: var(--ink-soft); font-size: 0.95rem; }
+
+  /* ---------- Menu / features ---------- */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  @media (min-width: 640px) { .menu-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .menu-grid { grid-template-columns: repeat(4, 1fr); } }
+
+  .menu-card {
+    background: var(--paper);
+    border: 1px solid var(--sand);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    box-shadow: var(--shadow-card);
+    transition: transform 200ms var(--ease), box-shadow 200ms var(--ease), border-color 200ms var(--ease);
+  }
+  .menu-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); border-color: var(--terracotta); }
+  .menu-card-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--cream-soft);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brown-600);
+  }
+  .menu-card h3 { font-size: 1.15rem; }
+  .menu-card p { color: var(--ink-soft); font-size: 0.92rem; flex: 1; }
+  .menu-card .price { font-weight: 700; color: var(--brown-600); font-family: var(--font-body); }
+
+  /* ---------- Testimonials ---------- */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  @media (min-width: 768px) { .testimonials-grid { grid-template-columns: repeat(3, 1fr); } }
+  .testimonial-card {
+    background: var(--cream-soft);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .stars { display: flex; gap: 0.15rem; }
+  .testimonial-card p.quote { font-size: 1.02rem; color: var(--ink); flex: 1; }
+  .testimonial-cite { display: flex; flex-direction: column; font-style: normal; }
+  .testimonial-cite strong { font-size: 0.95rem; }
+  .testimonial-cite span { font-size: 0.85rem; color: var(--ink-soft); }
+
+  /* ---------- Visit ---------- */
+  .visit {
+    background: var(--coffee-900);
+    color: var(--cream-ink);
+  }
+  .visit .section-head p { color: var(--cream-ink-soft); }
+  .visit .section-head .eyebrow { color: var(--terracotta); }
+  .visit .section-head .eyebrow::before { background: var(--terracotta); }
+  .visit-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  @media (min-width: 768px) { .visit-grid { grid-template-columns: 1fr 1fr; } }
+
+  .visit-detail { display: flex; gap: 0.9rem; margin-bottom: var(--space-3); }
+  .visit-detail .icon { color: var(--terracotta); margin-top: 0.15rem; }
+  .visit-detail strong { display: block; margin-bottom: 0.2rem; }
+  .visit-detail span, .visit-detail p { color: var(--cream-ink-soft); font-size: 0.95rem; }
+
+  .visit-map {
+    border-radius: var(--radius);
+    aspect-ratio: 4/3;
+    background:
+      radial-gradient(120% 120% at 80% 20%, rgba(198,123,92,0.25), transparent 55%),
+      linear-gradient(160deg, rgba(245,239,230,0.08), rgba(245,239,230,0.02));
+    border: 1px solid rgba(245,239,230,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    padding: var(--space-3);
+  }
+  .visit-map .icon { width: 40px; height: 40px; color: var(--terracotta); }
+  .visit-map span { color: var(--cream-ink-soft); font-size: 0.9rem; max-width: 32ch; }
+
+  /* ---------- Footer ---------- */
+  .site-footer {
+    background: var(--coffee-900);
+    color: var(--cream-ink-soft);
+    border-top: 1px solid rgba(245,239,230,0.12);
+    padding-block: var(--space-4);
+  }
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  @media (min-width: 768px) {
+    .footer-inner { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
+  .footer-inner .logo { color: var(--cream-ink); }
+  .footer-nav { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+  .footer-nav a { font-size: 0.9rem; transition: color 180ms var(--ease); }
+  .footer-nav a:hover { color: var(--cream-ink); }
+  .footer-bottom { font-size: 0.8rem; margin-top: var(--space-2); }
+
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#top" class="logo" aria-label="Amber & Oak Roasters, home">
+      <span class="logo-mark" aria-hidden="true">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 9h13a1 1 0 0 1 1 1v3a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6v-3a1 1 0 0 1 1-1Z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c-.5 1 .5 1.5 0 3"/><path d="M12 3c-.5 1 .5 1.5 0 3"/></svg>
+      </span>
+      Amber &amp; Oak
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation menu">
+      <svg class="icon" viewBox="0 0 24 24" id="navToggleIcon"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Primary">
+      <ul>
+        <li><a href="#about">Our Story</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#visit">Visit</a></li>
+      </ul>
+      <a class="btn btn-primary" href="#visit">Visit Us</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="top">
+    <div class="container hero-inner">
+      <span class="eyebrow">Small-batch · roasted Tuesdays &amp; Fridays</span>
+      <h1>Coffee, roasted around the corner.</h1>
+      <p class="lede">We buy direct from six family farms, roast five kilos at a time three blocks from here, and pour it into your cup within the hour. No mystery blends — just honest coffee, made by people who live in this neighborhood.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#menu">
+          See the menu
+          <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-on-dark" href="#visit">Find us</a>
+      </div>
+      <ul class="hero-stats">
+        <li><strong>12</strong><span>years roasting</span></li>
+        <li><strong>6</strong><span>partner farms</span></li>
+        <li><strong>5kg</strong><span>batch size, never more</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container about-grid">
+      <div>
+        <div class="section-head">
+          <span class="eyebrow">Our story</span>
+          <h2>Small batches, honest sourcing</h2>
+          <p>Amber &amp; Oak started in 2013 as a single roaster in a garage on Maple Street. We still roast in small batches, print tasting notes on every bag, and know most of our regulars by name.</p>
+        </div>
+        <ul class="about-list">
+          <li>
+            <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c4-3 7-6.5 7-10.5A7 7 0 0 0 5 10.5C5 14.5 8 18 12 21Z"/><path d="M12 6v9"/></svg>
+            <span><strong>Direct-trade relationships</strong><span>Long-term partnerships with six family farms across three countries.</span></span>
+          </li>
+          <li>
+            <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h13a1 1 0 0 1 1 1v3a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6v-3a1 1 0 0 1 1-1Z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/></svg>
+            <span><strong>Roasted in 5kg batches</strong><span>Small enough to taste the difference between harvests, every time.</span></span>
+          </li>
+          <li>
+            <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            <span><strong>Compostable packaging, always</strong><span>Bags, cups, and lids that break down — not just recycling symbols.</span></span>
+          </li>
+        </ul>
+      </div>
+      <figure class="about-visual">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h13a1 1 0 0 1 1 1v3a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6v-3a1 1 0 0 1 1-1Z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c-.5 1 .5 1.5 0 3"/><path d="M12 3c-.5 1 .5 1.5 0 3"/><path d="M16 3c-.5 1 .5 1.5 0 3"/></svg>
+        <figcaption>The roaster, mid-batch — Maple Street, 6:45am.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="menu" style="background: var(--paper);">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">On the counter</span>
+        <h2>Today's menu</h2>
+        <p>A short, honest list. Ask your barista what's fresh off the roaster this week.</p>
+      </div>
+      <div class="menu-grid">
+        <article class="menu-card">
+          <div class="menu-card-icon" aria-hidden="true">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M6 2v4"/><path d="M10 2v4"/><path d="M14 2v4"/><path d="M18 8v10a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V8Z"/></svg>
+          </div>
+          <h3>Pour Over</h3>
+          <p>A slow, single-origin cup brewed to order — a different farm every month.</p>
+          <span class="price">$5.00</span>
+        </article>
+        <article class="menu-card">
+          <div class="menu-card-icon" aria-hidden="true">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 9h13a1 1 0 0 1 1 1v3a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6v-3a1 1 0 0 1 1-1Z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/></svg>
+          </div>
+          <h3>Espresso &amp; Milk</h3>
+          <p>Ristretto shots pulled short, steamed oat or whole milk, latte art on request.</p>
+          <span class="price">$4.50</span>
+        </article>
+        <article class="menu-card">
+          <div class="menu-card-icon" aria-hidden="true">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M8 2h8"/><path d="M9 2v6.5a4 4 0 0 1-.8 2.4L5 17a3 3 0 0 0 2.4 5h9.2a3 3 0 0 0 2.4-5l-3.2-6.1A4 4 0 0 1 15 8.5V2"/></svg>
+          </div>
+          <h3>Cold Brew</h3>
+          <p>Steeped for eighteen hours, served over a full glass of ice, no dilution.</p>
+          <span class="price">$5.00</span>
+        </article>
+        <article class="menu-card">
+          <div class="menu-card-icon" aria-hidden="true">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M3 11a9 9 0 0 1 18 0Z"/><path d="M3 11h18v2a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/></svg>
+          </div>
+          <h3>Pastry Case</h3>
+          <p>Baked next door each morning — ask what came out of the oven last.</p>
+          <span class="price">$4.00</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">From the neighborhood</span>
+        <h2>What people say</h2>
+      </div>
+      <div class="testimonials-grid">
+        <article class="testimonial-card">
+          <div class="stars" aria-hidden="true">
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="quote">"The pour-over here changed how I think about coffee. Every cup is a little different, and every cup is right."</p>
+          <cite class="testimonial-cite"><strong>Priya M.</strong><span>Regular since 2019</span></cite>
+        </article>
+        <article class="testimonial-card">
+          <div class="stars" aria-hidden="true">
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="quote">"It's the only place in the neighborhood where the barista remembers your order — and your dog's name."</p>
+          <cite class="testimonial-cite"><strong>Devon R.</strong><span>Lives on 3rd Street</span></cite>
+        </article>
+        <article class="testimonial-card">
+          <div class="stars" aria-hidden="true">
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="icon-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="quote">"Roasted three blocks away and it shows. This is the freshest coffee I've had outside of a farm."</p>
+          <cite class="testimonial-cite"><strong>Lucas T.</strong><span>Visiting from out of town</span></cite>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="visit" id="visit">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Come by</span>
+        <h2>Visit the roastery</h2>
+        <p>We're a short walk from the Maple Street station — look for the amber awning.</p>
+      </div>
+      <div class="visit-grid">
+        <div>
+          <div class="visit-detail">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            <span><strong>Address</strong><span>214 Maple Street, corner of 3rd &amp; Maple</span></span>
+          </div>
+          <div class="visit-detail">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            <span><strong>Hours</strong><span>Mon–Fri 6:30am–6pm · Sat–Sun 7am–5pm</span></span>
+          </div>
+          <div class="visit-detail">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+            <span><strong>Order ahead</strong><a href="tel:+15555550142">(555) 555-0142</a></span>
+          </div>
+          <a class="btn btn-primary" href="tel:+15555550142">
+            Call to order
+            <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="visit-map" role="img" aria-label="Map showing Amber and Oak Roasters at the corner of 3rd and Maple Street">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          <span>Corner of 3rd &amp; Maple — look for the amber awning next to the bakery.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <a href="#top" class="logo" aria-label="Amber & Oak Roasters, home">
+      <span class="logo-mark" aria-hidden="true">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 9h13a1 1 0 0 1 1 1v3a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6v-3a1 1 0 0 1 1-1Z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/></svg>
+      </span>
+      Amber &amp; Oak
+    </a>
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="#about">Our Story</a>
+      <a href="#menu">Menu</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#visit">Visit</a>
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    &copy; 2026 Amber &amp; Oak Roasters. Roasted with care on Maple Street.
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('navToggle');
+    var nav = document.getElementById('primaryNav');
+    if (!toggle || !nav) return;
+
+    toggle.addEventListener('click', function () {
+      var isOpen = nav.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        nav.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
+</body>
+</html>
